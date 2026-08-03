@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Ground
   - Grounded
+  - Death
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

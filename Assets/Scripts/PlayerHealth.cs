@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
         if (collision.CompareTag("Checkpoint"))
         {
             recentCheckpoint = collision.gameObject.transform;
-            collision.gameObject.GetComponent<Animator>().Play("hit");
+            collision.gameObject.GetComponent<Animator>().Play("Hit");
         }
     }
 
