@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class CamreaFollow : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Vector3 offset;
+    public float damping = 0.5f;
 
-    // Update is called once per frame
-    void Update()
+    public Transform target;
+    Vector3 velocity;
+
+    private void FixedUpdate()
     {
-        
+        Vector3 targetPosition = target.position + offset;
+        targetPosition.z = transform.position.z;
+
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, damping); 
     }
 }

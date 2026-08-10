@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     //Only be able to jump if touching the ground.
 
     public bool isGrounded; //Am I touching the ground?
+    public LayerMask groundlayer; //WHAT IS GROUND?
 
 // Start is called once before the first execution of Update after the MonoBehaviour is created.
     void Start()
@@ -33,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(movementInput.x * moveSpeed, rb.linearVelocity.y); //Move the player - Platform
         FlipSprite();
+
+        Debug.DrawRay(transform.position, Vector2.down * 1, Color.purple); //draws the line
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1, groundlayer);
+
         //rb.linearVelocity = new Vector2(movementInput.x * moveSpeed, movementInput.y * moveSpeed); //Move the player - Topdown
     }
 
@@ -69,6 +75,19 @@ public class PlayerMovement : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>(); //This gets the input.
+    }
+
+    public bool playerInteracting; //Is E key being pressed?
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            playerInteracting = true;
+        }
+        else if (context.canceled) //HAVE I LET E GO?
+        {
+            playerInteracting = false;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
