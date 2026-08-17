@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public bool spawnEnemies;
-
+    public bool spawnEnemies = true;
 
     // Spawn an enemy
     public GameObject enmeyPrefab;
@@ -14,9 +13,9 @@ public class EnemySpawner : MonoBehaviour
 
     // Max amout of enemies to spawn
     public int maxEnemyAmount;
-    public int currntEnemyAmount;
+    public int currentEnemyAmount;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(SpwnEnemy()); //Start
 
@@ -26,25 +25,27 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (currentEnemyAmount <= 0 && !spawnEnemies)
+        {
+            spawnEnemies = true;
+            StartCoroutine(SpwnEnemy());
+        }
     }
     
     IEnumerator SpwnEnemy()
     {
         while (spawnEnemies == true)
         {
-            float x = Random.Range(-8, 8);
-            float y = Random.Range(-4, 4);
-            Vector3 randomSpawnPosition = new Vector3(x, y, 0);
+            float randomX = Random.Range(-8, 8);
+            float randomY = Random.Range(-4, 4);
+            Vector3 randomSpawnPosition = new Vector3(randomX, randomY, 0);
 
             //SPAWN!
-            Instantiate(enemyPrefab, randomSpawnPosition) Quaternion.identity;
-            currentEnemyAmout++;
+            Instantiate(enmeyPrefab, randomSpawnPosition, Quaternion.identity);
+            currentEnemyAmount += 1;
 
             if (currentEnemyAmount >= maxEnemyAmount)
-            {
-
-            }
+                spawnEnemies = false;
             
             
             yield return new WaitForSeconds(spawnInterval);
