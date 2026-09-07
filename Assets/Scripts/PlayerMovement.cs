@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     //Use that to move the player in that direction.
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
+    Animator anim;
 
     public float moveSpeed = 5;
     public float jumpHeight = 10;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); //The code that assigns our rigidbody
         spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame.
@@ -39,8 +41,26 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down * 1, Color.purple); //draws the line
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1, groundlayer);
 
+        UpdateAnimator();
+
         //rb.linearVelocity = new Vector2(movementInput.x * moveSpeed, movementInput.y * moveSpeed); //Move the player - Topdown
     }
+
+    void UpdateAnimator()
+    {
+        if(movementInput.x == 0)
+        {
+            //Player stays still
+            anim.SetBool("Moving", false);
+        }
+        else
+        {
+            //Player is moving
+            anim.SetBool("Moving", true);
+        }
+    }
+
+
 
     void FlipSprite()
     {
